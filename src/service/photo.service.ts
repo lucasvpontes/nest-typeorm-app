@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Photo } from 'src/database/entities/photo.entity';
 import { User } from 'src/database/entities/user.entity';
+import { PaginationDto } from 'src/dtos/Pagination.dto';
+import { PaginatedPhotosResultDto } from 'src/dtos/PaginationPhotoResult.dto';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -12,40 +14,35 @@ export class PhotoService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<Photo[]> {
-    await this.userRepository.save({
-      name: 'John',
-  });
+  async findAll(paginationDto: PaginationDto): Promise<PaginatedPhotosResultDto> {
+    const chunk = 3;
+    const totalCount = await this.photoRepository.count()
+    const numberOfRounds = Math.ceil(20/chunk);
+    var photo;
 
-    await this.photoRepository.save({
-      name: 'Photo1.jpg',
-      description: 'Just a photo',
-      filename: 'filename.jpg',
-      views: 5,
-      isPublished: true,
-      userId: 1,
-      id: 1
-    });
+    for (var index = 1; index <= numberOfRounds; index++) {
+      const skippedItems = (index - 1) * chunk;
+      photo = await this.photoRepository.createQueryBuilder()
+      .orderBy('id', "ASC")
+      .offset(skippedItems)
+      .limit(chunk)
+      .getMany()
+      console.log("=============================================================================");
+      console.log(photo);
+      console.log("=============================================================================");
+    }
 
-    await this.photoRepository.save({
-        name: 'Photo2.jpg',
-        description: 'Just a photo',
-        filename: 'filename2.jpg',
-        views: 10,
-        isPublished: false,
-        userId: 1,
-        id: 2
-      });
-
-    return await this.photoRepository.find();
+    return {
+      totalCount,
+      page: paginationDto.page,
+      limit: paginationDto.limit,
+      data: photo
+    }
   }
 
   async insertAll(): Promise<void> {
-    await this.userRepository.save({
-      name: 'John',
-  });
 
-   var quantity = (await this.photoRepository.find()).length;
+    var quantity = (await this.photoRepository.find()).length;
 
     await this.photoRepository.save({
       name: 'Photo1.jpg',
@@ -54,18 +51,268 @@ export class PhotoService {
       views: 5,
       isPublished: true,
       userId: 1,
-      id: quantity + 1
+      id: ++quantity,
     });
-
     await this.photoRepository.save({
-        name: 'Photo2.jpg',
-        description: 'Just a photo',
-        filename: 'filename2.jpg',
-        views: 10,
-        isPublished: false,
-        userId: 1,
-        id: quantity + 2
-      });
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
+    await this.photoRepository.save({
+      name: 'Photo1.jpg',
+      description: 'Just a photo',
+      filename: 'filename.jpg',
+      views: 5,
+      isPublished: true,
+      userId: 1,
+      id: ++quantity,
+    });
   }
-  
 }
